@@ -3,10 +3,13 @@ console.clear()
 global.log = console.log
 
 import express from 'express'
+import { config } from 'dotenv'
 
 import products from './data/products.js'
 
 const app = express()
+config() // dotenv
+const { PORT, NODE_ENV } = process.env
 
 app.get('/', (req, res) => {
     res.send('API is working..')
@@ -22,4 +25,4 @@ app.get('/api/products/:id', (req, res) => {
     res.json(product)
 })
 
-app.listen(5000, log('Server running on port 5000'))
+app.listen(PORT, log(`Server running in ${NODE_ENV} mode on port ${PORT}`))
