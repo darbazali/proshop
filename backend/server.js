@@ -6,6 +6,9 @@ import express from 'express'
 import { config } from 'dotenv'
 
 import products from './data/products.js'
+import connectDB from './config/db.js'
+
+connectDB()
 
 const app = express()
 config() // dotenv
