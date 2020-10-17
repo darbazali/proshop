@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import colors from 'colors'
 import { config } from 'dotenv'
 config()
 
@@ -10,9 +11,9 @@ const connectDB = async () => {
             useCreateIndex: true,
         })
 
-        log(`MongoDB connected: ${conn.connection.host}`)
+        log(`MongoDB connected: ${conn.connection.host}`.cyan.underline)
     } catch (error) {
-        log(`Error: ${error.message}`)
+        log(`Error: ${error.message}`.red.underline.bold)
         process.exit(1)
     }
 }

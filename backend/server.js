@@ -3,6 +3,8 @@ console.clear()
 global.log = console.log
 
 import express from 'express'
+import colors from 'colors'
+
 import { config } from 'dotenv'
 
 import products from './data/products.js'
@@ -28,4 +30,7 @@ app.get('/api/products/:id', (req, res) => {
     res.json(product)
 })
 
-app.listen(PORT, log(`Server running in ${NODE_ENV} mode on port ${PORT}`))
+app.listen(
+    PORT,
+    log(`Server running in ${NODE_ENV} mode on port ${PORT}`.yellow.bold)
+)
