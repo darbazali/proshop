@@ -83,6 +83,7 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>QTY</Col>
                       <Col>
+                        {/* QTY SELECTOR */}
                         <Form.Control
                           as='select'
                           value={qty}
@@ -94,6 +95,7 @@ const ProductScreen = ({ history, match }) => {
                             </option>
                           ))}
                         </Form.Control>
+                        {/* END OF QTY SELECTOR */}
                       </Col>
                     </Row>
                   </ListGroup.Item>
