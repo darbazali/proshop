@@ -1,0 +1,26 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarbazAli/proshop.git"
+  },
+  "keywords": [
+    "MERN"
+  ],
+  "author": "Darbaz Ali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarbazAli/proshop/issues"
+  },
+  "homepage": "https://github.com/DarbazAli/proshop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
