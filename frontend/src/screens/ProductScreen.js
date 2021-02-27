@@ -40,7 +40,7 @@ const ProductScreen = ({ match }) => {
 
             <ListGroup.Item>
               <Rating
-                value={product.rating}
+                value={parseInt(product.rating)}
                 text={`${product.numReviews} reviews`}
               />
             </ListGroup.Item>
