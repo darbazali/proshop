@@ -9,6 +9,8 @@ import config from '../config/config.js'
 import connectDB from './lib/dbConnection.js'
 import productRoutes from './routes/productRoutes.js'
 
+import errorMiddleware from './lib/errorMiddleware.js'
+
 const app = express()
 dotenv.config()
 
@@ -22,6 +24,12 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/products', productRoutes)
+
+// 404
+app.use(errorMiddleware.notFound)
+
+// error handling middlware
+app.use(errorMiddleware.errorHandler)
 
 app.listen(config.port, () => {
   console.log(
