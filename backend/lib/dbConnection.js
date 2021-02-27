@@ -9,9 +9,9 @@ const connectDB = async () => {
       useFindAndModify: false,
     })
 
-    console.log(`MongoDB connected at ${conn.connection.host}`)
+    console.log(`MongoDB connected at ${conn.connection.host}`.cyan.underline)
   } catch (err) {
-    console.log(`Error: ${err.message}`)
+    console.log(`Error: ${err.message}`.red.underline)
     process.exit(1)
   }
 }
