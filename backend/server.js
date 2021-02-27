@@ -1,10 +1,17 @@
+'use strict'
+console.clear()
+
 import express from 'express'
 import dotenv from 'dotenv'
 import products from './data/products.js'
 import config from '../config/config.js'
+import connectDB from './lib/dbConnection.js'
 
 const app = express()
 dotenv.config()
+
+// connect to db
+connectDB()
 
 app.use(express.json())
 
