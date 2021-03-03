@@ -8,6 +8,7 @@ import colors from 'colors'
 import config from '../config/config.js'
 import connectDB from './lib/dbConnection.js'
 import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 import errorMiddleware from './lib/errorMiddleware.js'
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
 
 // 404
 app.use(errorMiddleware.notFound)
