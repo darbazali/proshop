@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import config from '../../config/config.js'
@@ -14,8 +15,10 @@ const protect = asyncHandler(async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1]
       const decoded = jwt.verify(token, config.jwtSecret)
 
-      req.user = await User.findById(decoded.id).select('-password')
-
+      const user = await User.findById(
+        mongoose.Types.ObjectId(decoded.id)
+      ).select('-password')
+      req.user = user
       next()
     } catch (error) {
       res.status(401)
@@ -27,8 +30,6 @@ const protect = asyncHandler(async (req, res, next) => {
     res.status(401)
     throw new Error('Not authorized, no token')
   }
-
-  next()
 })
 
-export { protect }
+export default protect
