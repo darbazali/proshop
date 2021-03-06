@@ -2,6 +2,7 @@
 console.clear()
 
 import express from 'express'
+import morgan from 'morgan'
 import dotenv from 'dotenv'
 import colors from 'colors'
 // import products from './data/products.js'
@@ -19,6 +20,7 @@ dotenv.config()
 connectDB()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 app.get('/', (req, res) => {
   res.send('API is running')
