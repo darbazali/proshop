@@ -83,5 +83,36 @@ const getUserProfile = asyncHandler(async (req, res) => {
     return res.status(404).send('User not found')
   }
 })
+// @desc    Update user profile
+// @route   GET /api/users/profile
+// @access  private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  // logedin user
+  const user = await User.findById(mongoose.Types.ObjectId(req.user._id))
 
-export default { getUsers, registerUser, authUser, getUserProfile }
+  if (user) {
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+    if (req.body.password) {
+      user.password = req.body.password
+    }
+    const updatedUser = await user.save()
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    })
+  } else {
+    return res.status(404).send('User not found')
+  }
+})
+
+export default {
+  getUsers,
+  registerUser,
+  authUser,
+  getUserProfile,
+  updateUserProfile,
+}
