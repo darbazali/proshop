@@ -10,6 +10,7 @@ import config from '../config/config.js'
 import connectDB from './lib/dbConnection.js'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 
 import errorMiddleware from './lib/errorMiddleware.js'
 
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/orders', orderRoutes)
 
 // 404
 app.use(errorMiddleware.notFound)
