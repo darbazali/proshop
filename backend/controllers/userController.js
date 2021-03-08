@@ -3,15 +3,13 @@ import mongoose from 'mongoose'
 import User from '../models/userModel.js'
 import generateToken from '../lib/generateToken.js'
 
-// list all users
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.find({}).select('-password')
-    return res.status(200).json(users)
-  } catch (error) {
-    return res.status(401).json({ error: error })
-  }
-}
+// @desc    get all users
+// @route   GET /api/users
+// @access  private/admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}).select('-password')
+  return res.status(200).json(users)
+})
 
 // @desc    Register new user
 // @route   POST /api/users
