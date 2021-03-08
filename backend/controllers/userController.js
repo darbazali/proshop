@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import mongoose from 'mongoose'
 import User from '../models/userModel.js'
 import generateToken from '../lib/generateToken.js'
+import { json } from 'express'
 
 // @desc    get all users
 // @route   GET /api/users
@@ -9,6 +10,19 @@ import generateToken from '../lib/generateToken.js'
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({}).select('-password')
   return res.status(200).json(users)
+})
+// @desc    Delte a users
+// @route   DELETE /api/users/:id
+// @access  private/admin
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+  if (user) {
+    await user.remove()
+    res.json({ message: 'User removed' })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
 })
 
 // @desc    Register new user
@@ -113,4 +127,5 @@ export default {
   authUser,
   getUserProfile,
   updateUserProfile,
+  deleteUser,
 }
