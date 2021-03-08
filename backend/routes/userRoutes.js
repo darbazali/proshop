@@ -13,6 +13,10 @@ router
   .get(protect, userCtrl.getUserProfile)
   .put(protect, userCtrl.updateUserProfile)
 
-router.route('/:id').delete(protect, admin, userCtrl.deleteUser)
+router
+  .route('/:id')
+  .delete(protect, admin, userCtrl.deleteUser)
+  .get(protect, admin, userCtrl.getUserById)
+  .put(protect, admin, userCtrl.updateUser)
 
 export default router
