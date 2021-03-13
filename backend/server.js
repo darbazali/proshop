@@ -4,9 +4,12 @@ console.clear()
 import express from 'express'
 import dotenv from 'dotenv'
 import colors from 'colors'
-import products from './data/products.js'
 import config from '../config/config.js'
 import connectDB from './lib/connectDB.js'
+
+// routers
+import productRoutes from './routes/productRoutes.js'
+
 dotenv.config()
 
 connectDB()
@@ -17,13 +20,7 @@ app.get('/', (req, res) => {
   res.send('Api is running')
 })
 
-app.get('/api/products', (req, res) => {
-  res.json(products)
-})
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p) => p._id === req.params.id)
-  res.json(product)
-})
+app.use('/api/products', productRoutes)
 
 app.listen(config.port, () => {
   console.log(
