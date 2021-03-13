@@ -1,7 +1,13 @@
+'use strict'
+console.clear()
+
 import express from 'express'
+import dotenv from 'dotenv'
 import products from './data/products.js'
+import config from '../config/config.js'
 
 const app = express()
+dotenv.config()
 
 app.get('/', (req, res) => {
   res.send('Api is running')
@@ -15,6 +21,6 @@ app.get('/api/products/:id', (req, res) => {
   res.json(product)
 })
 
-app.listen(5000, () => {
-  console.log('Server running on port 5000')
+app.listen(config.port, () => {
+  console.log(`Server running in ${config.env} on port ${config.port}`)
 })
