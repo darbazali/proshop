@@ -11,9 +11,7 @@ const Product = ({ product }) => {
 
       <Card.Body>
         <Link to={`/product/${product._id}`}>
-          <Card.Title as='div'>
-            <strong>{product.name}</strong>
-          </Card.Title>
+          <Card.Title as='div'>{product.name}</Card.Title>
         </Link>
         <Card.Text as='div'>
           <Rating
@@ -21,7 +19,9 @@ const Product = ({ product }) => {
             text={`${product.numReviews} reviews`}
           />
         </Card.Text>
-        <Card.Text as='h3'>${product.price}</Card.Text>
+        <Card.Text as='h3' style={{ paddingTop: '1rem' }}>
+          ${product.price}
+        </Card.Text>
       </Card.Body>
     </Card>
   )
