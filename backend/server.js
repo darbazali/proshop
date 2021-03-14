@@ -11,12 +11,15 @@ import { notFound, errorHandler } from './lib/errorMiddleware.js'
 
 // routers
 import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config()
 
 connectDB()
 
 const app = express()
+
+app.use(express.json())
 
 if (config.env === 'development') {
   app.use(morgan('dev'))
@@ -27,6 +30,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
 
 // Not found
 app.use(notFound)
