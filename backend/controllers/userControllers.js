@@ -1,4 +1,6 @@
 import asyncHandler from 'express-async-handler'
+import generateToken from '../lib/generateToken.js'
+
 import User from '../models/userModel.js'
 
 /*============================================================================
@@ -16,7 +18,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: null,
+      token: generateToken(user._id),
     })
   } else if (user && !(await user.matchPassword(password))) {
     res.status(401)
