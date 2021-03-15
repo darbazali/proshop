@@ -14,6 +14,10 @@ import {
 REDUCERS | CART
 ========================================*/
 import { cartReducer } from './reducers/cartReducers'
+/*=======================================
+REDUCERS | USERS
+========================================*/
+import { userLoginReducer } from './reducers/userReducers'
 
 /*=======================================
 REDUCERS | STATE
@@ -22,6 +26,7 @@ const reducers = combineReducers({
   productList: productListReducer,
   productDetails: productDetailReducer,
   cart: cartReducer,
+  userLogin: userLoginReducer,
 })
 
 /*=======================================
@@ -30,8 +35,16 @@ GET INITIAL STATE FROM LOCAL STORAGE
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : []
+/*=======================================
+GET USER INFO FROM STORAGE
+========================================*/
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null
+
 const initialState = {
   cart: { cartItems: cartItemsFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
 }
 
 const middleware = [thunk]
