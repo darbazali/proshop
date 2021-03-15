@@ -17,7 +17,11 @@ import { cartReducer } from './reducers/cartReducers'
 /*=======================================
 REDUCERS | USERS
 ========================================*/
-import { userLoginReducer, userRegisterReducer } from './reducers/userReducers'
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+} from './reducers/userReducers'
 
 /*=======================================
 REDUCERS | STATE
@@ -28,6 +32,7 @@ const reducers = combineReducers({
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
 })
 
 /*=======================================
