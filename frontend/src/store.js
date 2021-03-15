@@ -17,7 +17,7 @@ import { cartReducer } from './reducers/cartReducers'
 /*=======================================
 REDUCERS | USERS
 ========================================*/
-import { userLoginReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer } from './reducers/userReducers'
 
 /*=======================================
 REDUCERS | STATE
@@ -27,6 +27,7 @@ const reducers = combineReducers({
   productDetails: productDetailReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
 })
 
 /*=======================================
