@@ -71,7 +71,7 @@ GET PAYMENT METHOD FROM STOREAGE
 ========================================*/
 const paymentMethodFromStorage = localStorage.getItem('paymentMethod')
   ? JSON.parse(localStorage.getItem('paymentMethod'))
-  : {}
+  : null
 
 const initialState = {
   cart: {
