@@ -4,8 +4,10 @@ import { Row, Col, ListGroup, Card, Image, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import axios from 'axios'
+import StripeCheckout from 'react-stripe-checkout'
 
-import { getOrderDetails } from '../actions/orderActions'
+import { getOrderDetails, payOrder } from '../actions/orderActions'
 
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id
@@ -30,6 +32,20 @@ const OrderScreen = ({ match }) => {
       dispatch(getOrderDetails(orderId))
     }
   }, [order, orderId, dispatch])
+
+  const handleToken = async (token) => {
+    const { data } = await axios.post('/checkout', { token, order })
+
+    if (data.status === 'succeeded') {
+      dispatch(
+        payOrder(orderId, {
+          id: data.id,
+          status: data.status,
+          email_address: data.source.name,
+        })
+      )
+    }
+  }
 
   return loading ? (
     <Loader />
@@ -153,6 +169,12 @@ const OrderScreen = ({ match }) => {
                 </Row>
               </ListGroup.Item>
             </ListGroup>
+
+            <StripeCheckout
+              stripeKey='pk_test_51IVXy6BZgPXm2bZZOX2S6x6LbPhSUN7bVGJgpBxHIBHY9H3p732RpvtpqYd6Y6c2PDTaxQWRRKGLT0y0IfpWCxih00F8bmgLxp'
+              token={handleToken}
+              amount={Number(order.totalPrice) * 100}
+            />
           </Card>
         </Col>
       </Row>

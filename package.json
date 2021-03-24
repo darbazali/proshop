@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/DarbazAli/proshop#readme",
   "dependencies": {
+    "@types/stripe": "^8.0.417",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
@@ -30,7 +31,8 @@
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.17",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "stripe": "^8.138.0"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
