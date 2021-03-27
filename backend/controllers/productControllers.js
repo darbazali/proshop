@@ -8,10 +8,7 @@ Public
 ==============================================================*/
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({})
-  if (products) return res.status(200).json(products)
-  else {
-    return res.status(404).json({ error: 'No products found' })
-  }
+  res.status(200).json(products)
 })
 /*=============================================================
 FIND PRODUCT BY ID
