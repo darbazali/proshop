@@ -5,6 +5,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import productRoutes from './routes/productRoutes.js'
 
+import { notFound, errorHandler } from './lib/errorMiddleware.js'
+
 import connectDB from './lib/connectDB.js'
 connectDB()
 
@@ -18,6 +20,9 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/products', productRoutes)
+
+app.use('/', notFound)
+app.use('/', errorHandler)
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port 5000`)
