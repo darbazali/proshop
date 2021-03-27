@@ -52,9 +52,9 @@ const ProductScreen = ({ match }) => {
                   <Col>
                     <strong>
                       {product.countInStock > 0 ? (
-                        <p style={{ color: 'green' }}>In Stock</p>
+                        <span style={{ color: 'green' }}>In Stock</span>
                       ) : (
-                        <p style={{ color: 'red' }}>Out of Stock</p>
+                        <span style={{ color: 'red' }}>Out of Stock</span>
                       )}
                     </strong>
                   </Col>
