@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { Link } from 'react-router-dom'
@@ -6,20 +6,20 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 
 import { addToCart, removeFromCart } from '../actions/cartActions'
 
-const CartScreen = ({ match, location, history }) => {
-  const productId = match.params.id
+const CartScreen = ({ history }) => {
+  // const productId = match.params.id
 
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1
+  // const qty = location.search ? Number(location.search.split('=')[1]) : 1
 
   const dispatch = useDispatch()
 
   const { cartItems } = useSelector((state) => state.cart)
 
-  useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty))
-    }
-  }, [productId, dispatch, qty])
+  // useEffect(() => {
+  //   if (productId) {
+  //     dispatch(addToCart(productId, qty))
+  //   }
+  // }, [productId, dispatch, qty])
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
@@ -34,7 +34,7 @@ const CartScreen = ({ match, location, history }) => {
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
-          <Message>
+          <Message variant='blue'>
             Your cart is empty <Link to='/'>Go Back</Link>
           </Message>
         ) : (
@@ -45,7 +45,7 @@ const CartScreen = ({ match, location, history }) => {
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3}>
+                  <Col md={4}>
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
