@@ -4,9 +4,9 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getUserDetails } from '../actions/userActions'
+import { getUserDetails, updateUserProfile } from '../actions/userActions'
 // import { listMyOrders } from '../actions/orderActions'
-// import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('')
@@ -20,15 +20,16 @@ const ProfileScreen = ({ location, history }) => {
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const { userInfo } = useSelector((state) => state.userLogin)
+
+  const { success } = useSelector((state) => state.userUpdate)
 
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     } else {
-      if (!user || !user.name) {
-        // dispatch({ type: USER_UPDATE_PROFILE_RESET })
+      if (!user || !user.name || success) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET })
         dispatch(getUserDetails('profile'))
         // dispatch(listMyOrders())
       } else {
@@ -36,14 +37,20 @@ const ProfileScreen = ({ location, history }) => {
         setEmail(user.email)
       }
     }
-  }, [dispatch, history, userInfo, user])
+  }, [dispatch, history, userInfo, user, success])
+
+  const resetPasswordFields = () => {
+    setPassword('')
+    setConfirmPassword('')
+  }
 
   const submitHandler = (e) => {
     e.preventDefault()
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      //   dispatch(updateUserProfile({ id: user._id, name, email, password }))
+      dispatch(updateUserProfile({ id: user._id, name, email, password }))
+      resetPasswordFields()
     }
   }
 
@@ -52,7 +59,7 @@ const ProfileScreen = ({ location, history }) => {
       <Col md={4}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
-        {/* {success && <Message variant='success'>Profile Updated</Message>} */}
+        {success && <Message variant='success'>Profile Updated</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
