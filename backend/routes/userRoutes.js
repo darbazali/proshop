@@ -1,10 +1,13 @@
 import express from 'express'
 import userCtrl from '../controllers/userControllers.js'
-import { protect } from '../lib/authMiddleware.js'
+import { protect, admin } from '../lib/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/').post(userCtrl.registerUser)
+router
+  .route('/')
+  .post(userCtrl.registerUser)
+  .get(protect, admin, userCtrl.getUsers)
 
 router
   .route('/profile')

@@ -123,4 +123,21 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 })
 
-export default { authUser, getUserProfile, registerUser, updateUserProfile }
+/*=============================================================
+Get All users
+GET /api/users/
+Private/Admin
+==============================================================*/
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+
+  res.json(users)
+})
+
+export default {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+}
