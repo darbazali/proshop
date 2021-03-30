@@ -7,6 +7,7 @@ import Loader from '../components/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 // import { listMyOrders } from '../actions/orderActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { listMyOrders } from '../actions/orderActions'
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('')
@@ -20,6 +21,9 @@ const ProfileScreen = ({ location, history }) => {
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
 
+  const orderListMy = useSelector((state) => state.orderListMy)
+  const { loading: loadingList, error: errorOrders, orders } = orderListMy
+
   const { userInfo } = useSelector((state) => state.userLogin)
 
   const { success } = useSelector((state) => state.userUpdate)
@@ -31,7 +35,7 @@ const ProfileScreen = ({ location, history }) => {
       if (!user || !user.name || success) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET })
         dispatch(getUserDetails('profile'))
-        // dispatch(listMyOrders())
+        dispatch(listMyOrders())
       } else {
         setName(user.name)
         setEmail(user.email)
@@ -56,7 +60,7 @@ const ProfileScreen = ({ location, history }) => {
 
   return (
     <Row>
-      <Col md={4}>
+      <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
         {success && <Message variant='success'>Profile Updated</Message>}
@@ -112,12 +116,9 @@ const ProfileScreen = ({ location, history }) => {
           </Form>
         )}
       </Col>
-      <Col md={8}>
+      <Col md={9}>
         <h2>My Orders</h2>
-      </Col>
-      {/* <Col md={9}>
-        <h2>My Orders</h2>
-        {loadingOrders ? (
+        {loadingList ? (
           <Loader />
         ) : errorOrders ? (
           <Message variant='danger'>{errorOrders}</Message>
@@ -138,7 +139,7 @@ const ProfileScreen = ({ location, history }) => {
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.totalPrice}</td>
+                  <td>${order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
                       order.paidAt.substring(0, 10)
@@ -165,7 +166,7 @@ const ProfileScreen = ({ location, history }) => {
             </tbody>
           </Table>
         )}
-      </Col> */}
+      </Col>
     </Row>
   )
 }

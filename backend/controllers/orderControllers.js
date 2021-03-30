@@ -55,6 +55,7 @@ const getOrderById = asyncHandler(async (req, res) => {
     throw new Error('Order not found')
   }
 })
+
 /*=============================================================
 Update Order to paid
 POST /api/orders/:id/pay
@@ -62,7 +63,7 @@ Privarte
 ==============================================================*/
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
-  console.log(req.params.id)
+
   if (order) {
     order.isPaid = true
     order.paidAt = Date.now()
@@ -82,5 +83,14 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     throw new Error('Order not found')
   }
 })
+/*=============================================================
+Get logged in user orders
+POST /api/orders/myorders
+Privarte
+==============================================================*/
+const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id })
+  res.json(orders)
+})
 
-export default { addOrderItems, getOrderById, updateOrderToPaid }
+export default { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders }

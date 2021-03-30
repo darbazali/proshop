@@ -164,12 +164,13 @@ const OrderScreen = ({ history, match }) => {
                 </Row>
               </ListGroup.Item>
             </ListGroup>
-
-            <StripeCheckout
-              stripeKey='pk_test_51IVXy6BZgPXm2bZZOX2S6x6LbPhSUN7bVGJgpBxHIBHY9H3p732RpvtpqYd6Y6c2PDTaxQWRRKGLT0y0IfpWCxih00F8bmgLxp'
-              token={handleToken}
-              amount={Number(order.totalPrice) * 100}
-            />
+            {!order.isPaid && (
+              <StripeCheckout
+                stripeKey='pk_test_51IVXy6BZgPXm2bZZOX2S6x6LbPhSUN7bVGJgpBxHIBHY9H3p732RpvtpqYd6Y6c2PDTaxQWRRKGLT0y0IfpWCxih00F8bmgLxp'
+                token={handleToken}
+                amount={Number(order.totalPrice) * 100}
+              />
+            )}
           </Card>
         </Col>
       </Row>
