@@ -4,17 +4,21 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-
-import { getOrderDetails } from '../actions/orderActions'
-// import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+import StripeCheckout from 'react-stripe-checkout'
+import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { ORDER_PAY_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
+import axios from 'axios'
 
 const OrderScreen = ({ history, match }) => {
   const orderId = match.params.id
+
   const dispatch = useDispatch()
 
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
+
+  const { loadingPay, success } = useSelector((state) => state.orderPay)
 
   if (!loading) {
     //   Calculate prices
@@ -28,10 +32,26 @@ const OrderScreen = ({ history, match }) => {
   }
 
   useEffect(() => {
-    if (!order || order._id !== orderId) {
+    if (!order || success || order._id !== orderId) {
+      dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(orderId))
     }
-  }, [dispatch, orderId, order])
+  }, [dispatch, orderId, success, order])
+
+  // handle payment with stripe
+  const handleToken = async (token) => {
+    const response = await axios.post('/checkout', { token, order })
+    const { status } = response.data
+
+    if (status === 'success') {
+      dispatch(payOrder(orderId))
+    } else {
+      console.log('Something went wrong', {
+        type: 'error',
+        error: response.data,
+      })
+    }
+  }
 
   return loading ? (
     <Loader />
@@ -144,6 +164,12 @@ const OrderScreen = ({ history, match }) => {
                 </Row>
               </ListGroup.Item>
             </ListGroup>
+
+            <StripeCheckout
+              stripeKey='pk_test_51IVXy6BZgPXm2bZZOX2S6x6LbPhSUN7bVGJgpBxHIBHY9H3p732RpvtpqYd6Y6c2PDTaxQWRRKGLT0y0IfpWCxih00F8bmgLxp'
+              token={handleToken}
+              amount={Number(order.totalPrice) * 100}
+            />
           </Card>
         </Col>
       </Row>
