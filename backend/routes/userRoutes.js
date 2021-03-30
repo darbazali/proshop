@@ -16,4 +16,6 @@ router
 
 router.route('/login').post(userCtrl.authUser)
 
+router.route('/:id').delete(protect, admin, userCtrl.deleteUser)
+
 export default router
