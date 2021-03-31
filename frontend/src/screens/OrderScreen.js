@@ -14,7 +14,7 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
 } from '../constants/orderConstants'
-// import { USER_DETAILS_RESET } from '../constants/userConstants'
+import { USER_DETAILS_RESET } from '../constants/userConstants'
 import axios from 'axios'
 
 const OrderScreen = ({ history, match }) => {
@@ -48,6 +48,7 @@ const OrderScreen = ({ history, match }) => {
     if (!order || success || order._id !== orderId || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
+      dispatch({ type: USER_DETAILS_RESET })
       dispatch(getOrderDetails(orderId))
     }
   }, [dispatch, orderId, success, order, successDeliver, userInfo, history])
@@ -98,7 +99,7 @@ const OrderScreen = ({ history, match }) => {
               </p>
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.deliveredAt}
+                  Delivered on {order.deliveredAt.substring(0, 10)}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
@@ -112,7 +113,9 @@ const OrderScreen = ({ history, match }) => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant='success'>Paid on {order.paidAt}</Message>
+                <Message variant='success'>
+                  Paid on {order.paidAt.substring(0, 10)}
+                </Message>
               ) : (
                 <Message variant='danger'>Not paid</Message>
               )}
