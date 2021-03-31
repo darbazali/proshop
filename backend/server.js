@@ -3,9 +3,11 @@ console.clear()
 
 import express from 'express'
 import bodyParser from 'body-parser'
+import path from 'path'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import uploadRoutes from './routes/uploadRoutes.js'
 
 import Stripe from 'stripe'
 import { uuid } from 'uuidv4'
@@ -21,6 +23,8 @@ connectDB()
 
 const app = express()
 
+const __dirname = path.resolve()
+
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -31,6 +35,7 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
+app.use('/api/upload', uploadRoutes)
 
 /* ========================= STRIPE PAYMENT =========================== */
 
@@ -80,6 +85,8 @@ app.post('/checkout', async (req, res) => {
 })
 
 /* ========================= END STRIPE PAYMENT =========================== */
+
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use('/', notFound)
 app.use('/', errorHandler)
