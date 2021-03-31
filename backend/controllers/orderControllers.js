@@ -83,6 +83,27 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     throw new Error('Order not found')
   }
 })
+
+/*=============================================================
+Update Order to delivered
+POST /api/orders/:id/deliver
+Privarte/Admin
+==============================================================*/
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    order.isDelivered = true
+    order.deliveredAt = Date.now()
+
+    const updatedOrder = await order.save()
+    res.json(updatedOrder)
+  } else {
+    res.status(404)
+    throw new Error('Order not found')
+  }
+})
+
 /*=============================================================
 Get logged in user orders
 POST /api/orders/myorders
@@ -107,6 +128,7 @@ export default {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
+  updateOrderToDelivered,
   getMyOrders,
   getOrders,
 }
