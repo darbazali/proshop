@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 
 import { addToCart, removeFromCart } from '../actions/cartActions'
+import Meta from '../components/Meta'
 
 const CartScreen = ({ history }) => {
   // const productId = match.params.id
@@ -31,6 +32,7 @@ const CartScreen = ({ history }) => {
 
   return (
     <Row>
+      <Meta title={`ProShop | Cart (${cartItems.length})`} />
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
@@ -46,7 +48,7 @@ const CartScreen = ({ history }) => {
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={4}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    <Link to={`/products/${item.product}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
