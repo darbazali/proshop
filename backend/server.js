@@ -5,6 +5,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import path from 'path'
+import dotenv from 'dotenv'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
@@ -13,9 +14,9 @@ import uploadRoutes from './routes/uploadRoutes.js'
 import Stripe from 'stripe'
 import { uuid } from 'uuidv4'
 
-const stripe = new Stripe(
-  'sk_test_51IVXy6BZgPXm2bZZBWOAgZjDIIQVdYJKfxKGO4J81eFSg7rnuKK50u8ol7ErhONjeGdfzfyirMIPTaFmIkPJzMDO00Z0JslPyI'
-)
+dotenv.config()
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 import { notFound, errorHandler } from './lib/errorMiddleware.js'
 
@@ -32,10 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
-
-app.get('/', (req, res) => {
-  res.send('API is working')
-})
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
@@ -64,22 +61,11 @@ app.post('/checkout', async (req, res) => {
         currency: 'usd',
         customer: customer.id,
         receipt_email: token.email,
-        // description: `Purchased the ${product.name}`,
-        // shipping: {
-        //   name: token.card.name,
-        //   address: {
-        //     line1: token.card.address_line1,
-        //     line2: token.card.address_line2,
-        //     city: token.card.address_city,
-        //     country: token.card.address_country,
-        //     postal_code: token.card.address_zip,
-        //   },
       },
       {
         idempotency_key,
       }
     )
-    // console.log('Charge:', { charge })
     status = 'success'
   } catch (error) {
     console.error('Error:', error)
@@ -90,6 +76,18 @@ app.post('/checkout', async (req, res) => {
 })
 
 /* ========================= END STRIPE PAYMENT =========================== */
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  })
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is working')
+  })
+}
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
