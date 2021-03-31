@@ -24,9 +24,7 @@ const ProductEditScreen = ({ history, match }) => {
 
   const dispatch = useDispatch()
 
-  const { loading, error, product } = useSelector(
-    (state) => state.productDetails
-  )
+  const { product } = useSelector((state) => state.productDetails)
   const {
     loading: loadingUpdate,
     error: errorUpdate,
