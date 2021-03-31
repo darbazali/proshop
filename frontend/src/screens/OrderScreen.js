@@ -28,9 +28,7 @@ const OrderScreen = ({ history, match }) => {
   const { userInfo } = useSelector((state) => state.userLogin)
 
   const { success } = useSelector((state) => state.orderPay)
-  const { success: successDeliver, loading: loadingDeliver } = useSelector(
-    (state) => state.orderDeliver
-  )
+  const { success: successDeliver } = useSelector((state) => state.orderDeliver)
 
   if (!loading) {
     //   Calculate prices

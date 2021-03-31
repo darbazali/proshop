@@ -7,7 +7,7 @@ router
   .route('/')
   .get(productCtrl.getProducts)
   .post(protect, admin, productCtrl.createProduct)
-
+router.route('/top').get(productCtrl.getTopProducts)
 router
   .route('/:id')
   .get(productCtrl.getProductByID)
