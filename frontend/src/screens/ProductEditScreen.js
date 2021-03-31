@@ -6,7 +6,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 
-import { getProductDetails } from '../actions/productActions'
+import { getProductDetails, updateProduct } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 
 const ProductEditScreen = ({ history, match }) => {
   const productId = match.params.id
@@ -17,31 +18,52 @@ const ProductEditScreen = ({ history, match }) => {
   const [brand, setBrand] = useState('')
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(0)
-  const [descreption, setDescreption] = useState('')
+  const [description, setDescription] = useState('')
 
   const dispatch = useDispatch()
 
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   )
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = useSelector((state) => state.productUpdate)
 
   useEffect(() => {
-    if (!product.name || product._id !== productId) {
-      dispatch(getProductDetails(productId))
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      history.push('/admin/productlist')
     } else {
-      setName(product.name)
-      setPrice(product.price)
-      setImage(product.image)
-      setBrand(product.brand)
-      setCategory(product.category)
-      setCountInStock(product.countInStock)
-      setDescreption(product.description)
+      if (!product.name || product._id !== productId) {
+        dispatch(getProductDetails(productId))
+      } else {
+        setName(product.name)
+        setPrice(product.price)
+        setImage(product.image)
+        setBrand(product.brand)
+        setCategory(product.category)
+        setCountInStock(product.countInStock)
+        setDescription(product.description)
+      }
     }
-  }, [product, productId, dispatch, history])
+  }, [product, productId, dispatch, history, successUpdate])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    // UPDATE PRODUCT
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        description,
+        countInStock,
+      })
+    )
   }
 
   return (
@@ -51,7 +73,10 @@ const ProductEditScreen = ({ history, match }) => {
       </Link>
 
       <FormContainer>
-        <h1>Edit User</h1>
+        <h1>Edit Product</h1>
+
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
@@ -126,8 +151,8 @@ const ProductEditScreen = ({ history, match }) => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={descreption}
-              onChange={(e) => setDescreption(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
