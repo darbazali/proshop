@@ -3,6 +3,7 @@ console.clear()
 
 import express from 'express'
 import bodyParser from 'body-parser'
+import morgan from 'morgan'
 import path from 'path'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
@@ -27,6 +28,10 @@ const __dirname = path.resolve()
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 app.get('/', (req, res) => {
   res.send('API is working')

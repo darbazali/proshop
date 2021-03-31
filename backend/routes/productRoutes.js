@@ -14,4 +14,6 @@ router
   .delete(protect, admin, productCtrl.deleteProduct)
   .put(protect, admin, productCtrl.updateProduct)
 
+router.route('/:id/review').post(protect, productCtrl.createProductReview)
+
 export default router
