@@ -11,7 +11,9 @@ node_modules/
 
 # production
 frontend/build
-
+.firebaserc
+firebase.json
+.firebase
 # misc
 .DS_Store
 .env
