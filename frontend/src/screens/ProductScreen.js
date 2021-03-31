@@ -13,10 +13,7 @@ import {
 } from '../actions/productActions'
 import { addToCart } from '../actions/cartActions'
 
-import {
-  PRODUCT_CREATE_RESET,
-  PRODUCT_CREATE_REVIEW_RESET,
-} from '../constants/productConstants'
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
 const ProductScreen = ({ match, history }) => {
   const [qty, setQty] = useState(1)
