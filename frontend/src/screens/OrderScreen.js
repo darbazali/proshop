@@ -68,7 +68,7 @@ const OrderScreen = ({ history, match }) => {
     }
   }
 
-  const deliverHandler = (order) => {
+  const deliverHandler = () => {
     dispatch(deliverOrder(order))
   }
 
@@ -201,7 +201,7 @@ const OrderScreen = ({ history, match }) => {
                   <Button
                     type='button'
                     className='btn btn-block'
-                    onClick={deliverHandler(order)}
+                    onClick={deliverHandler}
                   >
                     Mark as Delivered
                   </Button>
