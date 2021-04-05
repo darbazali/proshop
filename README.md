@@ -4,6 +4,8 @@ ProShop is a production-ready eCommerce platform with MERN Stack technologies
 
 ![alt text](./banner.png 'ProShop eCommerce web app')
 
+### [Live Demo](https://proshopapp-x.herokuapp.com)
+
 ## Features
 
 ### Customers
